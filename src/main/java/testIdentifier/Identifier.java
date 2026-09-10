@@ -3,12 +3,21 @@ package testIdentifier;
 public class Identifier {
 
     public boolean validateIdentifier(String s) {
+        char achar;
         boolean valid_id = false;
 
         if (s.length() > 0) {
-            valid_id = true;
+            achar = s.charAt(0);
+            valid_id = valid_s(achar);
         }
         if (valid_id && (s.length() >= 1) && (s.length() <= 6))
+            return true;
+        else
+            return false;
+    }
+
+    public boolean valid_s(char ch) {
+        if (((ch >= 'A') && (ch <= 'Z')) || ((ch >= 'a') && (ch <= 'z')))
             return true;
         else
             return false;

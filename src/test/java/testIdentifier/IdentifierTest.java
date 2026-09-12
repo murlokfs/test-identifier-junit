@@ -6,6 +6,8 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.CsvSource;
 
 /**
  * Testes automatizados do programa Identifier.
@@ -85,6 +87,29 @@ class IdentifierTest {
             boolean resultado = identifier.validateIdentifier(entrada);
             // Assessment
             assertFalse(resultado, "Caractere especial deveria ser invalido");
+        }
+    }
+
+    // ============================================================
+    // Analise de Valor Limite - comprimento
+    // ============================================================
+    @Nested
+    @DisplayName("Valor Limite - Comprimento")
+    class ValorLimiteComprimento {
+
+        @ParameterizedTest(name = "{0}: \"{1}\" -> {2}")
+        @CsvSource({
+            "VL01 n=0, '',      false",
+            "VL02 n=1, a,       true",
+            "VL03 n=6, abcdef,  true",
+            "VL04 n=7, abcdefg, false"
+        })
+        void limitesDeComprimento(String id, String entrada, boolean esperado) {
+            // Setup: entrada e saida esperada vindas do @CsvSource
+            // Invocation
+            boolean resultado = identifier.validateIdentifier(entrada);
+            // Assessment
+            assertEquals(esperado, resultado, id + " falhou");
         }
     }
 }

@@ -112,4 +112,35 @@ class IdentifierTest {
             assertEquals(esperado, resultado, id + " falhou");
         }
     }
+
+    // ============================================================
+    // Analise de Valor Limite - faixas de caracteres (ASCII)
+    // ============================================================
+    @Nested
+    @DisplayName("Valor Limite - Faixas de caracteres")
+    class ValorLimiteCaracteres {
+
+        @ParameterizedTest(name = "{0}: \"{1}\" -> {2}")
+        @CsvSource(delimiter = '|', value = {
+            "VL05 extremo A       | A  | true",
+            "VL05 extremo Z       | Z  | true",
+            "VL06 extremo a       | a  | true",
+            "VL06 extremo z       | z  | true",
+            "VL07 antes de A (@)  | @  | false",
+            "VL08 depois de Z ([) | [  | false",
+            "VL09 antes de a (`)  | `  | false",
+            "VL10 depois de z ({) | {  | false",
+            "VL11 extremo 0       | a0 | true",
+            "VL11 extremo 9       | a9 | true",
+            "VL12 antes de 0 (/)  | a/ | false",
+            "VL13 depois de 9 (:) | a: | false"
+        })
+        void limitesDeFaixa(String id, String entrada, boolean esperado) {
+            // Setup: entrada e saida esperada vindas do @CsvSource
+            // Invocation
+            boolean resultado = identifier.validateIdentifier(entrada);
+            // Assessment
+            assertEquals(esperado, resultado, id + " falhou");
+        }
+    }
 }

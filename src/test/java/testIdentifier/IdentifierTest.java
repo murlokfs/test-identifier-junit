@@ -143,4 +143,44 @@ class IdentifierTest {
             assertEquals(esperado, resultado, id + " falhou");
         }
     }
+
+    // ============================================================
+    // Exemplos da especificacao e caso fora do dominio
+    // ============================================================
+    @Nested
+    @DisplayName("Exemplos da especificacao")
+    class ExemplosEspecificacao {
+
+        @Test
+        @DisplayName("'string' -> Valido")
+        void exemploValido() {
+            // Setup
+            String entrada = "string";
+            // Invocation
+            boolean resultado = identifier.validateIdentifier(entrada);
+            // Assessment
+            assertTrue(resultado);
+        }
+
+        @Test
+        @DisplayName("'stringmuitogrande' -> Invalido")
+        void exemploInvalido() {
+            // Setup
+            String entrada = "stringmuitogrande";
+            // Invocation
+            boolean resultado = identifier.validateIdentifier(entrada);
+            // Assessment
+            assertFalse(resultado);
+        }
+
+        @Test
+        @DisplayName("null -> lanca NullPointerException (fora da especificacao)")
+        void entradaNula() {
+            // Setup
+            String entrada = null;
+            // Invocation + Assessment
+            assertThrows(NullPointerException.class,
+                () -> identifier.validateIdentifier(entrada));
+        }
+    }
 }
